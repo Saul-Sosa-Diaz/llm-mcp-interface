@@ -4,19 +4,13 @@ An advanced AI assistant application built with Chainlit, OpenAI LLM, and Model 
 
 ## Table of Contents
 
-- [Features](#features)
 - [Technology Stack](#technology-stack)
 - [Prerequisites](#prerequisites)
 - [Installation & Setup](#installation--setup)
 - [Project Structure](#project-structure)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [Development](#development)
-- [Deployment](#deployment)
-- [Troubleshooting](#troubleshooting)
-- [Security](#security)
 - [License](#license)
-- [Support & Contact](#support--contact)
 
 
 ## Technology Stack
