@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    },
+    "mssql": {
+      "command": "mssql-mcp-node",
+      "args": [],
+      "env": {
+        "MSSQL_MAINDB_SERVER": "",
+        "MSSQL_MAINDB_PORT": "",
+        "MSSQL_MAINDB_USER": "",
+        "MSSQL_MAINDB_PASSWORD": "",
+        "MSSQL_MAINDB_DATABASE": "",
+        "MSSQL_MAINDB_ENCRYPT": "",
+        "MSSQL_MAINDB_TRUST_SERVER_CERTIFICATE": "true"
+      }
+    }
+  }
+}
