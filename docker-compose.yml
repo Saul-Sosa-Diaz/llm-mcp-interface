@@ -17,10 +17,12 @@ services:
       - CHAINLIT_HEADLESS=false
       - CHAINLIT_AUTH_ENABLED=false
     volumes:
-      # Application code and data (needs write access for database)
+      # Application code (needs write access for database)
       - .:/app
       # MCP configuration (read-only)
       - ./mcp_config.json:/app/mcp_config.json:ro
+      # Persistent data volume for SQLite database
+      - chatlit_data:/app/data
     expose:
       - 8006
     networks:
@@ -60,6 +62,9 @@ networks:
     name: chainlit_network
 
 volumes:
-  # Persistent volumes for data
+  # Persistent volume for SQLite database
+  chatlit_data:
+    driver: local
+  # Persistent volumes for data (if needed for other purposes)
   data:
     driver: local

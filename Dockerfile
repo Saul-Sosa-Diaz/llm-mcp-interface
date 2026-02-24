@@ -48,6 +48,9 @@ RUN npm install -g mssql-mcp-node
 
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 
+# Create data directory with proper permissions
+RUN mkdir -p /app/data && chown -R appuser:appuser /app/data && chmod 755 /app/data
+
 COPY --from=builder --chown=appuser:appuser /root/.local /home/appuser/.local
 
 ENV PATH=/home/appuser/.local/bin:$PATH

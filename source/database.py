@@ -3,11 +3,15 @@
 import aiosqlite
 import json
 import logging
+import os
 from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_DB_PATH = "chat_history.db"
+# Ensure data directory exists
+DATA_DIR = os.getenv("DATA_DIR", "/app/data")
+os.makedirs(DATA_DIR, exist_ok=True)
+DEFAULT_DB_PATH = os.path.join(DATA_DIR, "chat_history.db")
 
 
 class ChatDatabase:
@@ -24,7 +28,13 @@ class ChatDatabase:
     async def initialize(self) -> None:
         """Create database tables if they don't exist."""
         try:
-            async with aiosqlite.connect(self.db_path) as db:
+            async with aiosqlite.connect(
+                self.db_path,
+                timeout=20.0,
+            ) as db:
+                # Enable WAL mode for better concurrency
+                await db.execute("PRAGMA journal_mode=WAL")
+                await db.execute("PRAGMA synchronous=NORMAL")
                 await db.execute(
                     """
                     CREATE TABLE IF NOT EXISTS messages (
@@ -62,7 +72,10 @@ class ChatDatabase:
             raise ValueError("session_id and role are required")
 
         try:
-            async with aiosqlite.connect(self.db_path) as db:
+            async with aiosqlite.connect(
+                self.db_path,
+                timeout=20.0,
+            ) as db:
                 tool_calls_json = json.dumps(tool_calls) if tool_calls else None
                 await db.execute(
                     """
@@ -86,7 +99,10 @@ class ChatDatabase:
             List of message dictionaries with role and content.
         """
         try:
-            async with aiosqlite.connect(self.db_path) as db:
+            async with aiosqlite.connect(
+                self.db_path,
+                timeout=20.0,
+            ) as db:
                 async with db.execute(
                     """
                     SELECT role, content, tool_calls FROM messages
